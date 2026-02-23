@@ -159,6 +159,7 @@ Each entry in the `include` array is an object with:
 | `path` | string | No | File or directory path relative to the project root |
 | `purl` | string | Yes | Package URL (PURL) identifying the component |
 | `comment` | string | No | Internal note or rationale for this BOM decision |
+| `acknowledgement` | string | No | Formal acknowledgement of this BOM decision, propagated to SBOM output |
 
 ### Remove
 
@@ -184,6 +185,7 @@ Each entry in the `remove` array is an object with:
 | `path` | string | No | File or directory path relative to the project root |
 | `purl` | string | Yes | Package URL (PURL) of the component to remove |
 | `comment` | string | No | Internal note or rationale for this BOM decision |
+| `acknowledgement` | string | No | Formal acknowledgement of this BOM decision, propagated to SBOM output |
 
 ### Replace
 
@@ -211,6 +213,7 @@ Each entry in the `replace` array is an object with:
 | `purl` | string | Yes | Package URL (PURL) of the component to replace |
 | `replace_with` | string | Yes | Package URL (PURL) of the replacement component |
 | `comment` | string | No | Internal note or rationale for this BOM decision |
+| `acknowledgement` | string | No | Formal acknowledgement of this BOM decision, propagated to SBOM output |
 
 ### Ignore
 
@@ -237,6 +240,7 @@ Each entry in the `ignore` array is an object with:
 |-------|------|----------|-------------|
 | `path` | string | Yes | File or directory path relative to the project root to ignore |
 | `comment` | string | No | Internal note or rationale for this BOM decision |
+| `acknowledgement` | string | No | Formal acknowledgement of this BOM decision, propagated to SBOM output |
 
 ## Component Identification
 
@@ -371,14 +375,16 @@ Below is a comprehensive example of a `scanoss.json` file that demonstrates all 
       {
         "path": "src/lib/crypto",
         "purl": "pkg:github/openssl/openssl@3.0.0",
-        "comment": "Vendored OpenSSL not detected by scanner"
+        "comment": "Vendored OpenSSL not detected by scanner",
+        "acknowledgement": "Confirmed: OpenSSL 3.0.0 vendored under src/lib/crypto"
       }
     ],
     "remove": [
       {
         "path": "src/utils/helper.c",
         "purl": "pkg:github/someorg/false-positive",
-        "comment": "False positive — helper.c is original code"
+        "comment": "False positive — helper.c is original code",
+        "acknowledgement": "Reviewed and confirmed as original code, not third-party"
       }
     ],
     "replace": [
@@ -386,7 +392,8 @@ Below is a comprehensive example of a `scanoss.json` file that demonstrates all 
         "path": "src/lib/json",
         "purl": "pkg:github/wrong/attribution",
         "replace_with": "pkg:github/correct/component@1.0.0",
-        "comment": "Scanner matched fork instead of upstream project"
+        "comment": "Scanner matched fork instead of upstream project",
+        "acknowledgement": "Verified upstream project is the correct attribution"
       }
     ],
     "ignore": [
