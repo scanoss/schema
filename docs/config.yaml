@@ -1,0 +1,5 @@
+template_name: js
+description_is_markdown: true
+show_breadcrumbs: false
+collapse_long_descriptions: false
+custom_template_path: templates/scanoss/base.html
