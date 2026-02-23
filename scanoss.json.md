@@ -158,6 +158,7 @@ Each entry in the `include` array is an object with:
 |-------|------|----------|-------------|
 | `path` | string | No | File or directory path relative to the project root |
 | `purl` | string | Yes | Package URL (PURL) identifying the component |
+| `comment` | string | No | Internal note or rationale for this BOM decision |
 
 ### Remove
 
@@ -182,6 +183,7 @@ Each entry in the `remove` array is an object with:
 |-------|------|----------|-------------|
 | `path` | string | No | File or directory path relative to the project root |
 | `purl` | string | Yes | Package URL (PURL) of the component to remove |
+| `comment` | string | No | Internal note or rationale for this BOM decision |
 
 ### Replace
 
@@ -208,6 +210,7 @@ Each entry in the `replace` array is an object with:
 | `path` | string | No | File or directory path relative to the project root |
 | `purl` | string | Yes | Package URL (PURL) of the component to replace |
 | `replace_with` | string | Yes | Package URL (PURL) of the replacement component |
+| `comment` | string | No | Internal note or rationale for this BOM decision |
 
 ### Ignore
 
@@ -233,6 +236,7 @@ Each entry in the `ignore` array is an object with:
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `path` | string | Yes | File or directory path relative to the project root to ignore |
+| `comment` | string | No | Internal note or rationale for this BOM decision |
 
 ## Component Identification
 
@@ -366,20 +370,23 @@ Below is a comprehensive example of a `scanoss.json` file that demonstrates all 
     "include": [
       {
         "path": "src/lib/crypto",
-        "purl": "pkg:github/openssl/openssl@3.0.0"
+        "purl": "pkg:github/openssl/openssl@3.0.0",
+        "comment": "Vendored OpenSSL not detected by scanner"
       }
     ],
     "remove": [
       {
         "path": "src/utils/helper.c",
-        "purl": "pkg:github/someorg/false-positive"
+        "purl": "pkg:github/someorg/false-positive",
+        "comment": "False positive — helper.c is original code"
       }
     ],
     "replace": [
       {
         "path": "src/lib/json",
         "purl": "pkg:github/wrong/attribution",
-        "replace_with": "pkg:github/correct/component@1.0.0"
+        "replace_with": "pkg:github/correct/component@1.0.0",
+        "comment": "Scanner matched fork instead of upstream project"
       }
     ],
     "ignore": [
