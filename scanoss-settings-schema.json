@@ -288,6 +288,10 @@
               "comment": {
                 "type": "string",
                 "description": "Additional notes or comments"
+              },
+              "acknowledgement": {
+                "type": "string",
+                "description": "Formal acknowledgement of this BOM decision, propagated to SBOM output"
               }
             },
             "uniqueItems": true,
@@ -298,7 +302,8 @@
               {
                 "path": "src/lib/component.js",
                 "purl": "pkg:npm/lodash@4.17.21",
-                "comment": "Full match: path + purl"
+                "comment": "Full match: path + purl",
+                "acknowledgement": "Confirmed: lodash 4.17.21 vendored under src/lib"
               },
               {
                 "purl": "pkg:npm/vue@2.6.12",
@@ -329,6 +334,10 @@
               "comment": {
                 "type": "string",
                 "description": "Additional notes or comments"
+              },
+              "acknowledgement": {
+                "type": "string",
+                "description": "Formal acknowledgement of this BOM decision, propagated to SBOM output"
               }
             },
             "anyOf": [
@@ -342,7 +351,8 @@
               {
                 "path": "src/main.c",
                 "purl": "pkg:npm/vue@2.6.12",
-                "comment": "Full match: removes only this purl at this path"
+                "comment": "Full match: removes only this purl at this path",
+                "acknowledgement": "Reviewed and confirmed as original code, not third-party"
               },
               {
                 "purl": "pkg:npm/deprecated-pkg@1.0.0",
@@ -378,6 +388,10 @@
                 "type": "string",
                 "description": "Additional notes or comments"
               },
+              "acknowledgement": {
+                "type": "string",
+                "description": "Formal acknowledgement of this BOM decision, propagated to SBOM output"
+              },
               "license": {
                 "type": "string",
                 "description": "License of the replacement component. Should be a valid SPDX license expression (e.g. `MIT`, `Apache-2.0`, `GPL-3.0-only`).",
@@ -402,7 +416,8 @@
                 "purl": "pkg:npm/old-lib@1.0.0",
                 "replace_with": "pkg:npm/new-lib@2.0.0",
                 "license": "MIT",
-                "comment": "Upgrade to newer version"
+                "comment": "Upgrade to newer version",
+                "acknowledgement": "Verified upstream project is the correct attribution"
               }
             ]
           ]
