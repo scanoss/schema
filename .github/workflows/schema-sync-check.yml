@@ -1,0 +1,71 @@
+name: Schema Sync Check
+
+on:
+  workflow_call:
+    inputs:
+      source-file:
+        description: 'Path to the schema file in this repo'
+        required: true
+        type: string
+      target-file:
+        description: 'Path to the vendored schema file in the consumer repo'
+        required: true
+        type: string
+      fail-on-diff:
+        description: 'Fail the workflow when schemas are out of sync'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  check-schema-sync:
+    name: Check Schema Sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout consumer repo
+        uses: actions/checkout@v4
+
+      - name: Checkout schema repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/schema
+          path: .schema-source
+
+      - name: Compare schemas
+        id: compare
+        shell: bash
+        run: |
+          source_path=".schema-source/${{ inputs.source-file }}"
+          target_path="${{ inputs.target-file }}"
+
+          if [ ! -f "$source_path" ]; then
+            echo "::error::Source schema not found: ${{ inputs.source-file }}"
+            exit 1
+          fi
+
+          if [ ! -f "$target_path" ]; then
+            echo "::error::Local vendored schema not found: $target_path"
+            exit 1
+          fi
+
+          if diff -u "$source_path" "$target_path"; then
+            echo "Schema is in sync."
+          else
+            echo ""
+            echo "::error::Schema out of sync: $target_path"
+            echo ""
+            echo "To fix, run:"
+            echo "  curl -sL https://raw.githubusercontent.com/${{ github.repository_owner }}/schema/main/${{ inputs.source-file }} -o $target_path"
+            echo "result=out-of-sync" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Report result
+        if: steps.compare.outputs.result == 'out-of-sync'
+        run: |
+          msg="Vendored schema is out of sync with ${{ github.repository_owner }}/schema. See diff above."
+          if [ "${{ inputs.fail-on-diff }}" = "true" ]; then
+            echo "::error::${msg}"
+            exit 1
+          else
+            echo "::warning::${msg}"
+          fi
